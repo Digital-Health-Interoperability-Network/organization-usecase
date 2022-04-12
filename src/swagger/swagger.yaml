@@ -1,0 +1,1942 @@
+version: '3'
+
+openapi: '3.0.0'
+info:
+  title: 'Healthcare Interoperability: Organization Ops'
+  version: '1.0.0'
+  description: 'Interoperability in health care service:  Organization usecase'
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Dev Server
+  - url: http://localhost/api/v1
+    description: Docker 
+paths:
+  /users/signup:
+    post:
+      tags:
+        - Users
+      description: The user enters his mail to verify he is a real person
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: 
+                  type: string
+                  example: uzoagulujoshua@yahoo.com
+      responses:
+        200:
+          description: Successfull
+        500:
+          description: "Internal server error: email is required"
+  /users/verifyotp:
+    post:
+      tags: 
+        - Users
+      description: Verify the otp sent to the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: uzoagulujoshua@yahoo.com
+                otp:
+                  type: string
+                  example: 8999
+      responses:
+        200:
+          description: Successfull
+        401:
+          description: UnAuthorized
+        500:
+          description: Internal server error
+  /users/resendotp:
+    post:
+      tags:
+        - Users
+      description: Resend otp to user after time has elapsed
+      requestBody:
+        required: true,
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: 
+                  type: string
+                  example: uzoagulujoshua@yahoo.com
+      responses:
+        200:
+          description: Successfull
+        500:
+          description: Internal server error
+
+  /organization:
+    post:
+      tags: 
+        - Organization
+      description: Create an Organization
+      requestBody:
+        required: 
+          - name
+          - password
+          - confirmPassword
+          - telecom
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Parklane Teaching Hospital Enugu
+                password: 
+                  type: string
+                  example: password1234
+                confirmPassword:
+                  type: string
+                  example: password1234
+                type: 
+                  type: object
+                  example: 
+                    system: 'www.system.com'
+                    code: 342334343
+                    display: University teaching hospital
+                identifier:
+                  type: array
+                  example:
+                    - use: 'Official use'
+                      system: 'www.system.com'
+                      value: Parklane Teaching Hospital Enugu
+                telecom:
+                  type: array
+                  example:
+                    - system: email
+                      rank: 1
+                      value: parklanhospital.gmail.com
+                      use: work
+                active: 
+                  type: boolean
+                  example: 
+                    true
+      responses:
+        201:
+          description: Created Successfully
+        500:
+          description: Internal Server Error
+    
+    get:
+      tags: 
+        - Organization
+      description: Get all the organization
+      security:
+        - bearerAuth: []
+      responses: 
+        200: 
+          description: Successfull
+        401: 
+          description: Unathaurized Access
+        500: 
+          description: Internal Server Error
+    
+    patch:
+      tags:
+        - Organization
+      description: Update the current logged in organization details
+      security: 
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: 
+                name: 
+                  type: string
+                  example: Patrick Otiji specialist hospital updated again
+      responses:
+        200:
+          description: Successfull
+        401:
+          description: Unauthorized Access
+        500: 
+          description: Internal Server Error
+
+  /organization/login:
+    post:
+      tags: 
+        - Organization
+      description: organization login
+      requestBody:
+        required: 
+          - email
+          - password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: parklanehospital@gmail.com
+                password:
+                  type: string
+                  example: password1234
+      responses:
+        200:
+          description: Successfull
+        400:
+          description: Bad Request - check email or password
+        401:
+          description: Unauthorized access - wrong email or password
+  
+  /organization/me:
+    get:
+      tags:
+        - Organization
+      description: Get the current logged in organization
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfull
+        401:
+          description: Unauthorized Access
+        500:
+          description: Internal Server error
+  
+  /organization/{id}/telecom:
+    post:
+      tags:
+        - Organization
+      description: Add a new telecom to organization
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                use:
+                  type: string
+                  example: officail
+                system:
+                  type: string
+                  example: phone
+                value:
+                  type: string
+                  example: 07012318901
+                rank:
+                  type: number
+                  example: 2
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+        
+
+  /organization/{id}/telecom/{id1}:
+    patch:
+      tags:
+        - Organization 
+      description: Edit/Update already existing telecom
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                telecom: 
+                  type: object
+                  example:
+                    value: +23489438478239 
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+        
+    delete:
+      tags:
+        - Organization
+      description: Delete an already existing telecom of an organization.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /organization/{id}/address:
+    post:
+      tags:
+        - Organization
+      description: Add a new address to organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the organization you want to assign the address
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: array
+                  example:
+                    - use: Official
+                      type: both
+                      city: New York
+                      district: Washington
+                      state: Ohio
+                      country: Nigeria
+                      period:
+                        startDate: 10/11/2020
+                        endDate: 19/12/2023
+      responses:
+        201:
+          description: Created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+    put:
+      tags:
+        - Organization
+      description: edit address of an organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the organization
+          schema: 
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: array
+                  example:
+                    - _id: 6251632cd4296b023f52e9ad
+                      state: Enugu
+                      country: Nigeria
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+        
+
+  /organization/{id}/address/{id1}:
+    delete:
+      tags:
+        - Organization
+      description: Delete an already existing address.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the organization to remove the address
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          description: Id of the address you want to delete
+          schema: 
+            type: string
+            example: 6251632cd4296b023f52e9ad
+
+  /organization/{id}/identifier:
+    post:
+      tags:
+        - Organization
+      description: Add a new identifier for organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the organization you want to assign the identifier
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: array
+                  example:
+                    - use: Official
+                      type: both
+                      system: "sys"
+                      assigner: 'phcn'
+                      partOf: "Partof**"
+                      period: 
+                        startDate: 12/10/2020
+                        endDate: 09/08/2022
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+    put:
+      tags:
+        - Organization
+      description: edit address of an organization
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the organization
+          schema: 
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: array
+                  example:
+                    - _id: 6251632cd4296b023f52e9ad
+                      assigner: 'phcn'
+                      partOf: "Partof**"
+      responses:
+        200:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+          
+
+  /organization/{id}/identifier/{id1}:
+    delete:
+      tags:
+        - Organization
+      description: Delete an already existing identifier.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the organization to remove the identifier
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          description: Id of the identifier you want to delete
+          schema: 
+            type: string
+            example: 6251632cd4296b023f52e9ad
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+        
+  /contact:
+    post:
+      tags:
+        - Contact
+      description: Create a contact person for this organization
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                purpose:
+                  type: string
+                  example: BILL
+                name:
+                  type: object
+                  example:
+                    family: Uzoagulu 
+                    given:  Joshua Chukwudike
+                    prefix: Mr
+                    suffix: OON
+                telecom:
+                  type: array
+                  example:
+                    - use: officail
+                      rank: 1
+                      system: phone
+                      value: 08034915305
+      responses:
+        201:
+          description: Created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+ 
+  /contact/{id}/address:
+    post:
+      tags: 
+        - Contact
+      description: Create a address for the contact.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the contact you want to assign the telecom
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: array
+                  example:
+                    - use: Official
+                      type: both
+                      city: New York
+                      district: Washington
+                      state: Ohio
+                      country: Nigeria
+                      period:
+                        startDate: 10/11/2020
+                        endDate: 19/12/2023
+      responses:
+        201:
+          description: Created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+      
+    put:
+      tags:
+        - Contact
+      description: edit address of the contact
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the contact
+          schema: 
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: array
+                  example:
+                    - _id: 6251632cd4296b023f52e9ad
+                      state: Enugu
+                      country: Nigeria
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+  
+  /contact/{id}/address/{id1}:
+    delete:
+      tags:
+        - Contact
+      description: Delete an already existing address.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the contact to remove the address
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          description: Id of the address you want to delete
+          schema: 
+            type: string
+            example: 6251632cd4296b023f52e9ad
+      responses: 
+        204: 
+          description: Deleted Successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+  
+  /contact/{id}/telecom:
+    post:
+      tags:
+        - Contact
+      description: create a telecom for the contact
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                use:
+                  type: string
+                  example: officail
+                system:
+                  type: string
+                  example: phone
+                value:
+                  type: string
+                  example: 07012318901
+                rank:
+                  type: number
+                  example: 2
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+  
+  /contact/{id}/telecom/{id1}:
+    patch:
+      tags:
+        - Contact 
+      description: Edit/Update already existing telecom
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                telecom: 
+                  type: object
+                  example:
+                    value: +23489438478239 
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+        
+    delete:
+      tags:
+        - Contact
+      description: Delete an already existing telecom of an organization.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /_personnel:
+    post:
+      tags:
+        - _Personnel
+      description: Create Personnel for current logged in organization
+      security:
+        - bearerAuth: []
+      responses:
+        201:
+          description: Successfull
+        401: 
+          description: Unathurized Access
+        403:
+          description: You do not have permission to perform this action
+        500:
+          description: Internal Server Error
+    get:
+      tags:
+        - _Personnel
+      description: Get _Personnel of the current logged in organization
+      security:
+        - bearerAuth: []
+      responses:
+        201:
+          description: Successfull
+        401: 
+          description: Unathurized Access
+        403:
+          description: You do not have permission to perform this action
+        500:
+          description: Internal Server Error
+
+  /_personnel/{id}:
+    get:
+      tags: 
+        - _Personnel
+      description: Get _Personnel of any Organization using id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the _personnel
+          schema: 
+            type: string
+            example: 624e9c1d8d04894d2f927048
+      responses:
+        200:
+          description: Successfull
+        401: 
+          description: Unathurized Access
+        404:
+          description: document not found
+        500:
+          description: Internal Server Error
+
+  /practitoner:
+    post: 
+      tags:
+        - Practitioner
+      description: Add a Practitioner to your organization
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: object
+                  example:
+                    family: Careful
+                    given:
+                      - Adam
+                      - Luckster
+                    prefix:
+                      - Dr
+                gender:
+                  type: string
+                  example: Male
+                active:
+                  type: boolean
+                  example: true
+                address:
+                  type: array
+                  example:
+                    - use: Official
+                      postalcode: 400221
+                      line: 
+                        - Apo bridge
+                        - Asokoro
+                birthDate:
+                  type: string,
+                  example: 12/10/1979
+      responses:
+        200:
+          description: Successfull
+        401: 
+          description: Unauthorized Access
+        500:
+          description: Internal server error
+    
+    get:
+      tags:
+        - Practitioner
+      description: Get all practitioners of this organization
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Successfull
+        401: 
+          description: Unauthorized Access
+        500:
+          description: Internal server error
+
+  /practitoner/{id}: 
+    get:
+      tags: 
+        - Practitioner
+      description: Get organization practitioner using the id
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the practitioner
+          schema: 
+            type: string
+            example: 624edf1a33a02f86d76c0f67
+      responses:
+        200:
+          description: Successfull
+        401: 
+          description: Unathurized Access
+        404:
+          description: document not found
+        500:
+          description: Internal Server Error
+    
+    patch:
+      tags: 
+        - Practitioner
+      description: Update the practitioner of an organizaiton using the id
+      security: 
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the _personnel
+          schema: 
+            type: string
+            example: 624e9c1d8d04894d2f927048
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                communication:
+                  type: array
+                  example:
+                    - English
+                    - French
+      responses:
+        200:
+          description: Successfull
+        401: 
+          description: Unathurized Access
+        404:
+          description: document not found
+        500:
+          description: Internal Server Error
+
+    delete:
+      tags:
+        - Practitioner
+      description: Delete a practitioner from organizaiton
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Id of the practitioner you want to delete
+          schema:
+            type: string
+            example: 624edf1a33a02f86d76c0f67
+      responses:
+        204:
+          description: Deleted Successfully
+        401: 
+          description: Unathurized Access
+        404:
+          description: document not found
+        500:
+          description: Internal Server Error
+
+  /practitioner/{id}/identifier:
+    post:
+      tags:
+        - Practitioner
+      description: Add a new identifier for practitioner
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the practitioner you want to assign the identifier
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: array
+                  example:
+                    - use: Official
+                      type: both
+                      system: "sys"
+                      assigner: 'phcn'
+                      partOf: "Partof**"
+                      period: 
+                        startDate: 12/10/2020
+                        endDate: 09/08/2022
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+    put:
+      tags:
+        - Practitioner
+      description: edit identifier of an identifier
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the practitioner
+          schema: 
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: array
+                  example:
+                    - _id: 6251632cd4296b023f52e9ad
+                      assigner: 'phcn'
+                      partOf: "Partof**"
+      responses:
+        200:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /practitioner/{id}/identifier/{id1}:
+    delete:
+      tags:
+        - Practitioner
+      description: Delete an already existing identifier.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the practitioner to remove the identifier
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          description: Id of the identifier you want to delete
+          schema: 
+            type: string
+            example: 6251632cd4296b023f52e9ad
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /practitioner/{id}/practitionerrole:
+    post:
+      tags:
+        - Practitioner
+      definition: add practitioner role of the practitioner
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: id of the practitioner for this practitioner role
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                active:
+                  type: boolean
+                  example: true
+                code:
+                  type: array
+                  example:
+                    -  Doctor
+                    -  Nurse
+                    -  Lab Scientist
+                specialty:
+                  type: array
+                  example:
+                    - Special medical practice
+                availableTime:
+                  type: array
+                  example:
+                    - daysOfWeek:
+                        - Mon
+                        - Tue
+                        - Wed
+                      availableStartTime: 09:00:00
+                      availableEndTime: 16:30:00
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+    get:
+      tags:
+        - Practitioner
+      description: Get the practitioner role of a practitioner
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: id of the practitioner for this practitioner role
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized acces
+  
+    patch:
+      tags:
+        - Practitioner
+      description: Update practitioner role
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: id of the practitioner for this practitioner role
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                active:
+                  type: boolean
+                  example: true
+                code:
+                  type: array
+                  example:
+                    -  Doctor
+                    -  Nurse
+                specialty:
+                  type: array
+                  example:
+                    - Special medical practice
+                availableTime:
+                  type: array
+                  example:
+                    - daysOfWeek:
+                        - Mon
+                        - Tue
+                        - Wed
+                      availableStartTime: 09:00:00
+                      availableEndTime: 16:30:00
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /_service:
+    post:
+      tags: 
+        - _Services
+      description: Create _service for logged in organization
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                outpatientService:
+                  type: boolean
+                  example: true
+                inpatientServices:
+                  type: boolean
+                  example: true
+                surgicalServices:
+                  type: array
+                  example:
+                    - appendix
+                obstericsAndGynecologyServices:
+                  type: array
+                  example: 
+                    - CS
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+          
+    get:
+      tags:
+        - _Services
+      description: Get _Service of the current logged in user
+      security:
+        - BasicAuth: []
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+    patch:
+      tags:
+        - _Services
+      description: update the _Service of the current logged in organization
+      security:
+        - bearerAuth: []
+      requestBody:  
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                pediatricsServices:
+                  type: array
+                  example: 
+                    - Crawling
+                dentalServices:
+                  type: array
+                  example:
+                    - Washing
+                specialClinicalServices:
+                  type: array
+                  example:
+                    - optical
+                ambulanceServices:
+                  type: boolean
+                  example: false
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /healthcareservice:
+    post:
+      tags:
+        - Healthcare Service
+      description: Create/Add a Healthcare Service for current logged in organization
+      security:
+        - basicAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string 
+                  example: "Consulting psychologists and/or psychology services"
+                comment:
+                  type: string
+                  example: Providing Specialist psychology services to the greater Den Burg area, many years of experience dealing with PTSD issues
+                extraDetails:
+                  type: string
+                  example: Several assessments are required for these specialist services, and the waiting times can be greater than 3 months at times. Existing patients are prioritized when requesting appointments on the schedule.
+                active:
+                  type: boolean
+                  example: true
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+    get:
+      tags:
+        - Healthcare Service
+      description: Get all healthcares Service of my organization
+      security:
+        - basicAuth: []
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /healthcareservice/{id}:
+    patch:
+      tags: 
+        - Healthcare Service
+      description: Update/edit healthcare service
+      security:
+        - basicAuth: []
+      paramenters:
+        - in: path
+          name: id
+          description:  Id of the Healthcare service to update
+          schema:
+            type: string
+            example: 624e9c1d8d04894d2f927048
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coverageArea:
+                  type: array
+                  example:
+                    - reference: "#DenBurg"
+                      display: Greater Denburg area
+                  
+  /healthcareservice/{id}/telecom:
+    post:
+      tags:
+        - Healthcare Service
+      description: create a telecom for the healthcare service
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                use:
+                  type: string
+                  example: officail
+                system:
+                  type: string
+                  example: phone
+                value:
+                  type: string
+                  example: 07012318901
+                rank:
+                  type: number
+                  example: 2
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+  
+  /healthcareservice/{id}/telecom/{id1}:
+    patch:
+      tags:
+        - Healthcare Service 
+      description: Edit/Update already existing telecom
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                telecom: 
+                  type: object
+                  example:
+                    value: +23489438478239 
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+        
+    delete:
+      tags:
+        - Healthcare Service
+      description: Delete an already existing telecom of a healthcare service.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /healthcareservice/{id}/location:
+    post:
+      tags:
+        - Healthcare Service
+      description: Add location for the healthcare service
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: the id of the healthcare service for this location
+          schema:   
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: South Wing, third floor
+                position:
+                  type: object
+                  example:
+                    longitude: -83.6945691
+                    latitude: 42.25475478
+                    altitude: 0
+                mode: 
+                  type: string
+                  example: instance
+                status: 
+                  type: string
+                  example: active
+                description:
+                  type: string
+                  example: Second floor of the Old South Wing, formerly in use by Psychiatry
+      responses: 
+        204: 
+          description: Deleted Successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /healthcareservice/{id}/location/{id1}:
+    patch:
+      tags:
+        - Healthcare Service
+      description: update Location of a healthcare service
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: the id of the healthcare service
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          description: the id of the location to be updated
+          schema: 
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: South Wing, third floor
+                position:
+                  type: object
+                  example:
+                    longitude: -83.6945691
+                    latitude: 42.25475478
+                    altitude: 0
+                status: 
+                  type: string
+                  example: active
+                description:
+                  type: string
+                  example: Second floor of the Old South Wing, formerly in use by Psychiatry
+      responses: 
+        204: 
+          description: Deleted Successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+
+  /location/{id}/identifier:
+    post:
+      tags:
+        - Healthcare Service
+      description: Add a new identifier for location
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the location you want to assign the identifier
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: array
+                  example:
+                    - use: Official
+                      type: both
+                      system: "sys"
+                      assigner: 'phcn'
+                      partOf: "Partof**"
+                      period: 
+                        startDate: 12/10/2020
+                        endDate: 09/08/2022
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+    put:
+      tags:
+        - Healthcare Service
+      description: edit identifier of an identifier
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the practitioner
+          schema: 
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: array
+                  example:
+                    - _id: 6251632cd4296b023f52e9ad
+                      assigner: 'phcn'
+                      partOf: "Partof**"
+      responses:
+        200:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /location/{id}/identifier/{id1}:
+    delete:
+      tags:
+        - Healthcare Service
+      description: Delete an already existing identifier.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the location to remove the identifier
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          description: Id of the identifier you want to delete
+          schema: 
+            type: string
+            example: 6251632cd4296b023f52e9ad
+      responses:
+        204: 
+          description: null
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+  
+  /location/{id}/telecom:
+    post:
+      tags:
+        - Healthcare Service
+      description: create a telecom for the healthcare service
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                use:
+                  type: string
+                  example: officail
+                system:
+                  type: string
+                  example: phone
+                value:
+                  type: string
+                  example: 07012318901
+                rank:
+                  type: number
+                  example: 2
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /location/{id}/telecom/{id1}:
+    patch:
+      tags:
+        - Healthcare Service 
+      description: Edit/Update already existing telecom
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                telecom: 
+                  type: object
+                  example:
+                    value: +23489438478239 
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+        
+    delete:
+      tags:
+        - Healthcare Service
+      description: Delete an already existing telecom of a healthcare service.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: the organization's id
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          required: true
+          description: telecom id you want to update
+          schema:
+            type: string
+            example: 62515c9a8da7ca001d078ebe
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /location/{id}/address:
+    post:
+      tags: 
+        - Healthcare Service
+      description: add new address to the location
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the location you want to assign the telecom
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: array
+                  example:
+                    - use: Official
+                      type: both
+                      city: New York
+                      district: Washington
+                      state: Ohio
+                      country: Nigeria
+                      period:
+                        startDate: 10/11/2020
+                        endDate: 19/12/2023
+      responses:
+        201:
+          description: Created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+      
+    put:
+      tags:
+        - Healthcare Service
+      description: edit address of the location
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The Id of the location
+          schema: 
+            type: string
+            example: 624e9bbb8d04894d2f927044
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: array
+                  example:
+                    - _id: 6251632cd4296b023f52e9ad
+                      state: Enugu
+                      country: Nigeria
+      responses:
+        201:
+          description: created successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+  /location/{id}/address/{id1}:
+    delete:
+      tags:
+        - Healthcare Service
+      description: Delete an already existing address.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          description: Id of the location to remove the address
+          schema:
+            type: string
+            example: 624e9bbb8d04894d2f927044
+        - in: path
+          name: id1
+          description: Id of the address you want to delete
+          schema: 
+            type: string
+            example: 6251632cd4296b023f52e9ad
+      responses: 
+        204: 
+          description: Deleted Successfully
+        500: 
+          description: internal server error
+        403:
+          description: you do not have permission to perform this action
+        401:
+          description: unauthorized access
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+  schemas:
+    organization:
+      description: "Organization model"
+      status:
+        type: string
+        example: 'success'
+      result:
+        type: number
+        example: 8
+      data:
+        type: object
+        example:
+          id:
+            type: string
+            example: 'kjsdfkw3i32kfkjkdsjks'
+          name: 
+            type: string,
+            example: Example One National Hospital, Asokoro
+  
