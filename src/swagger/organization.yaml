@@ -1,0 +1,19 @@
+components:
+  schema:
+    Organization:
+      type: object
+        required:
+          - name
+          - password
+          - confirmPassword
+          - type
+       properties:
+          id:
+            type: string
+            description: the auto-generated id of the organization
+          name:
+            type: string
+            description: the name of the organization
+       example:
+        id: 627GFG8382920HGF
+        name: Patrick Otiji Specialist Hospital

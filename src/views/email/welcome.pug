@@ -1,0 +1,18 @@
+extends baseEmail
+
+block content
+    p Hello #{OrganizationName},
+    p Welcome to Cura, the leading healthcare interoperabilty agency in Nigeria,  we're glad to have you.
+    p We are happy to help you organize the workflow of your healthcare facility.
+    table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+        tbody
+            tr
+                td(align='left')
+                    table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                        tbody
+                            tr
+                                td
+                                    a(href=`${url}`, target='_blank') Go to Dashboard
+    p If you need any help navigating through our mobile application, please contact us.
+    p - Dev Team.
+    p - Cura, Healthcare Interoperability Agency.

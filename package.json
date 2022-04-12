@@ -1,0 +1,52 @@
+{
+  "name": "cura",
+  "version": "1.0.0",
+  "description": "Organization abstraction use-case",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "start:prod": "node server.js"
+  },
+  "author": "Uzoagulu Joshua",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "html-to-text": "^8.1.0",
+    "js-yaml": "^4.1.0",
+    "json-refs": "^3.0.15",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.17",
+    "mongoose-to-swagger": "^1.4.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.7.3",
+    "pug": "^3.0.2",
+    "randomstring": "^1.2.2",
+    "sharp": "^0.25.4",
+    "slugify": "^1.6.5",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
+    "validator": "^13.7.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "prettier": "^2.6.1"
+  },
+  "engines" : { 
+    "node" : ">=8.0.0 <11.0.0" 
+  }
+}
