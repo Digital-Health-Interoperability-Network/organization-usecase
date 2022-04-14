@@ -10,7 +10,7 @@ servers:
     description: Dev Server
   - url: http://localhost/api/v1
     description: Docker 
-  - url: http://192.168.8.190//api/v1
+  - url: http://192.168.8.190/api/v1
     description: raspberry pi 
 paths:
   /users/signup:
