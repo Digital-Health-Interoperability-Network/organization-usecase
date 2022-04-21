@@ -37,7 +37,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(cors());
 
 //body parser, reading data from body into req.body
-app.use(express.json());
+// app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(cookieParser());
 
 //testing middleware
