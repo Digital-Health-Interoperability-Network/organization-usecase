@@ -10,6 +10,7 @@ const { createSendToken } = require('../services/authentication');
 
 //signing user up
 exports.signup = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   // 1) Add the user email
   const newUser = await User.create({
     email: req.body.email,
