@@ -21,6 +21,7 @@ const telecomSchema = new mongoose.Schema({
   },
   active: {
     type: Boolean,
+    default: true,
   },
 });
 

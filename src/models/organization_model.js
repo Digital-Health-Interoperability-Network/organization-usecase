@@ -20,16 +20,6 @@ const organizationSchema = new mongoose.Schema(
       minLength: 8,
       select: false,
     },
-    confirmPassword: {
-      type: String,
-      // required: [true, 'please confirm password'],
-      validate: {
-        validator: function (confirmPasswrod) {
-          return confirmPasswrod === this.password;
-        },
-        message: 'Password does not match',
-      },
-    },
     passwordChangedAt: Date,
     confirmationCode: String,
     confirmationCodeExpires: Date,
@@ -84,7 +74,6 @@ organizationSchema.pre('save', async function (next) {
 
   this.password = await bcrypt.hash(this.password, 12);
 
-  this.confirmPassword = undefined;
   next();
 });
 

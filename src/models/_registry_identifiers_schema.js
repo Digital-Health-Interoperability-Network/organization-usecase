@@ -13,9 +13,6 @@ const _registryIdentifierSchema = new mongoose.Schema({
   facilityName: {
     type: String,
   },
-  alias: {
-    type: String,
-  },
   startDate: Date,
   EndDate: Date,
   ownership: {
@@ -31,17 +28,20 @@ const _registryIdentifierSchema = new mongoose.Schema({
     type: [String],
   },
   hoursOfOperation: {
-    type: Map,
+    type: [Map],
     of: Object,
   },
   operationalStatus: {
-    type: String,
+    type: Boolean,
+    default: true,
   },
   registrationStatus: {
-    type: String,
+    type: Boolean,
+    default: true,
   },
   licenseStatus: {
-    type: String,
+    type: Boolean,
+    default: true,
   },
 });
 

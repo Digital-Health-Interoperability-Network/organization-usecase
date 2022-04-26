@@ -1,0 +1,50 @@
+{
+    "name": "University on nigeria teaching hospital",
+    "active": true,
+    "alias": ["unth", "Ituku ozalla"],
+    "password": "test1234",
+    "confirmPassword": "test1234",
+    "type": {
+    "system": "www.system.com",
+    "code": 342334343,
+    "display": "University teaching hospital"
+  },
+  "identifier": [
+    {
+      "use": "Official use",
+      "system": "www.system.com",
+      "value": "Parklane Teaching Hospital Enugu"
+    }
+  ],
+    "telecom": [{
+    "use": "Official",
+    "rank": 1,
+    "system": "Email",
+    "value": "unth@gmail.com",
+    "period": {
+        "startDate": "10/12/1990",
+        "endDate": "01/09/2008"
+    }
+}],
+"_registryIdentifier": {
+    "facilityCode":  "10",
+  "stateUID": "839kdsk",
+  "registrationNO": "kajfk",
+  "facilityName": "unth",
+  "startDate": "10/12/1990",
+  "EndDate": "10/12/2009",
+  "ownership": "posh",
+  "ownershipType": "public",
+  "facilityLevel": "primary",
+  "daysOfOperation": ["mon", "tue", "wed", "thur", "fri"],
+  "hoursOfOperation": {
+    "mon": "10:00 - 18:00",
+    "tue": "10:00 - 18:00",
+    "wed": "10:00 - 18:00",
+    "thur": "10:00 - 18:00",
+    "fri": "10:00 - 18:00",
+    "sat": "10:00 - 18:00",
+    "sun": "10:00 - 2:00"
+  }
+}
+}

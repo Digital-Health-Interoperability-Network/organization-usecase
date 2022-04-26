@@ -88,7 +88,6 @@ paths:
         required: 
           - name
           - password
-          - confirmPassword
           - telecom
         content:
           application/json:
@@ -99,9 +98,6 @@ paths:
                   type: string
                   example: Parklane Teaching Hospital Enugu
                 password: 
-                  type: string
-                  example: password1234
-                confirmPassword:
                   type: string
                   example: password1234
                 type: 
