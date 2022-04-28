@@ -5,8 +5,9 @@ const app = require('./app');
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE_LOCAL;
-
+// const DB = `${process.env.DATABASE_MONGO}`;
+const DB = `${process.env.DATABASE}`;
+console.log(DB);
 mongoose
   .connect(DB, {
     useNewUrlParser: true,

@@ -64,8 +64,9 @@ app.use('/api/v1/address', addressRouter);
 app.use('/api/v1/humanname', humanNameRouter);
 app.use('/api/v1/healthcareservice', healthcareServiceRouter);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerOptions));
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerOptions));
 
-// if (true) {
+// if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static(`${__dirname}/public/`));
 //   app.get(/.*/, (req, res) => res.sendFile(`${__dirname}/public/index.html`));
 // }

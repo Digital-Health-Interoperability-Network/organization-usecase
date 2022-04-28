@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cura</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main id="main-doc">
+        <section class="main-section" id="HTML">
+            <header>Healthcare Interoperability: Organization Ops</header>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Tempora laboriosam, nemo ullam veniam, qui dolorem velit, quas minus voluptas placeat quibusdam soluta.
+                Perspiciatis quo consectetur vitae est? Architecto, aliquam accusantium?</p>
+            <h3>Basic Element:</h3>
+            <p><code>&lt;tagname&gt;Content&lt;/tagname&gt;</code></p>
+            <h3>Element with Attribute:</h3>
+            <p><code>&lt;tagname attributename=”value”&gt;Content&lt;/tagname&gt;</code></p>
+        </section>
+        <hr>
+        <section class="main-section" id="Basic_Page_Structure">
+            <header>Basic Page Structure</header>
+            <ul id="basic-elements">
+                <li><code>&lt;!DOCTYPE html&gt;</code></li>
+                <p>The first element in HTML document is the &lt;!DOCTYPE&gt;, which is required for browsers to display
+                    webpages correctly.
+                    It is an example of an empty element, an element that does not need a closing tag.</p>
+                <li><code>&lt;html&gt;</code></li>
+                <p>The next element is the <code>&lt;html&gt;</code> element, the root element.
+                    It contains a start and end tag that concludes the document.</p>
+                <li><code>&lt;head&gt;</code></li>
+                <p>After the <code>&lt;html&gt;</code> element, the <code>&lt;head&gt;</code> element follows with a
+                    start and end tag.
+                    This element contains meta information about the document,
+                    such as the <code>&lt;title&gt;</code> element that defines the document’s title. </p>
+                <li><code>&lt;body&gt;</code></li>
+                <p>The last basic document structure is the <code>&lt;body></code> element.
+                    The visible page content is contained within this element.</p>
+            </ul>
+            <h3>Example:</h3>
+            <div id="basic-ex">
+                <p><code>&lt;!DOCTYPE html&gt;</code></p>
+                <p><code>&lt;html&gt;</code></p>
+                <p><code>&lt;head&gt;</code></p>
+                <p><code>&lt;title&gt;Webpage Title&lt;/title&gt;</code></p>
+                <p><code>&lt;/head&gt;</code></p>
+                <p><code>&lt;body&gt;</code></p>
+                <p><code>&lt;h1&gt;Hello World!&lt;/h1&gt;</code></p>
+                <p><code>&lt;/body&gt;</code></p>
+                <p><code>&lt;/html&gt;</code></p>
+            </div>
+        </section>
+        <hr>
+        <section class="main-section" id="Headings/Paragraphs">
+            <header id="hp_header">Headings/Paragraphs</header>
+            <h2>Headings</h2>
+            <p>Headings help to define a documents structure and make it easier to read.
+                They are used by search engines to catalog the structure and content of a web page.
+                Heading tags run from the most important <code>&lt;h1&gt;</code> to the least <code>&lt;h6&gt;</code>
+                and include a start and end tag.</p>
+            <h3>Heading Examples:</h3>
+            <ul id="headings-list">
+                <li><code>&lt;h1&gt;Heading 1&lt;/h1&gt;</code></li>
+                <li><code>&lt;h2&gt;Heading 2&lt;/h2&gt;</code></li>
+                <li><code>&lt;h3&gt;Heading 3&lt;/h3&gt;</code></li>
+                <li><code>&lt;h4&gt;Heading 4&lt;/h4&gt;</code></li>
+                <li><code>&lt;h5&gt;Heading 5&lt;/h5&gt;</code></li>
+                <li><code>&lt;h6&gt;Heading 6&lt;/h6&gt;</code></li>
+            </ul>
+            <h2>Paragraphs</h2>
+            <p>The element that defines a paragraph in HTML is the <code>&lt;p&gt;</code> element.
+                The display of a paragraph can be unpredictable. Adding extra spaces will not changes the results
+                displayed,
+                the browser removes any extra spaces or lines. In order to preserve spaces and lines, the
+                <code>&lt;pre&gt;</code> element is used.
+            </p>
+            <h3>Paragraph Example:</h3>
+            <ul>
+                <li>Code:</li>
+                <div class="para-ex">
+                    <p><code>&lt;p&gt;This is an example paragraph.</code></p>
+                    <p><code>An example paragraph is this.</code></p>
+                    <p><code>A paragraph as an example.&lt;/p&gt;</code></p>
+                </div>
+                <li>Display:</li>
+                <div class="para-ex">
+                    <p>This is an example paragraph. An example paragraph is this.
+                        A paragraph as an example.</p>
+                </div>
+            </ul>
+            <h3>Preserve Paragraph Example:</h3>
+            <ul>
+                <li>Code:</li>
+                <div class="para-ex">
+                    <p><code>&lt;pre&gt;This is a preserved example paragraph.</code></p>
+                    <p><code>A preserved paragraph example.</code></p>
+                    <p><code>Paragraph with spaces and lines preserved.&lt;/pre&gt;</code></p>
+                </div>
+                <li>Display:</li>
+                <div class="para-ex">
+                    <pre>This is a preserved example paragraph.
+A preserved paragraph example.
+Paragraph with spaces and lines preserved.</pre>
+                </div>
+            </ul>
+        </section>
+        <hr>
+        <section class="main-section" id="Links/Images">
+            <header>Links/Images</header>
+            <h2>Links</h2>
+            <p>A HTML link, or hyperlinks, can be clicked on to move to another document. It can link to another HTML
+                element or image.
+                The <code>&lt;a&gt;</code> tag defines a link with the href attribute specifies the destination address
+                for the link.
+                For example, <code>&lt;a href=”url”&gt;link&lt;/a&gt;</code>. CSS can be used to change the color
+                behavior of a link.</p>
+            <h3>Link CSS Options:</h3>
+            <ul id="links-list">
+                <li>a:link – used for normal links</li>
+                <li>a:visited – visited links</li>
+                <li>a:hover – the mouse hovers over the link</li>
+                <li>a:active – a link as it is clicked.</li>
+            </ul>
+            <h2>Images</h2>
+            <p>Images can enhance the design of a webpage. HTML defines images with the <code>&lt;img&gt;</code> tag,
+                which is an empty tag and contains attributes only. The src attribute specifies the URL of an image.
+                The other required attribute is the alt attribute that provides alternate text if an image can’t
+                display.
+                Optional attributes include the width and height attributes used to specify their respective categories.
+                Images can also be used as links.</p>
+            <h3>Normal Image:</h3>
+            <code>&lt;img src =”url” alt=”alt text”&gt;</code>
+            <h3>Image Link:</h3>
+            <code>&lt;a href=”url1”&gt;&lt;img src=”url2” alt=”alt text”&gt;&lt;/a&gt;</code>
+        </section>
+        <hr>
+        <section class="main-section" id="Lists">
+            <header>Lists</header>
+            <p>HTML provides the option to create ordered or unordered lists. </p>
+            <h2>Unordered lists</h2>
+            <ul>
+                <li>Unordered lists start and end with the <code>&lt;ul&gt;</code> tag.</li>
+                <li>Each list item starts and ends with the <code>&lt;li&gt;</code> tag.</li>
+                <li>Items by default will be marked with bullets or discs.
+                    Use list-style-type to define the style of the list item markers, such as circles or no markers.
+                </li>
+                <li><b>Example:</b></li>
+                <div class="lists-ex">
+                    <p><code>&lt;ul style=”list-style-type:square;”&gt;</p>
+			<p>&lt;li&gt;Item 1&lt;/li&gt;</p>
+			<p>&lt;li&gt;Item 2&lt;/li&gt;</p>
+			<p>&lt;li&gt;Item 3&lt;/li&gt;&lt;/ul&gt;</p></code>
+                </div>
+            </ul>
+            <h2>Ordered lists</h2>
+            <ul>
+                <li>Ordered lists start and end with the <code>&lt;ol&gt;</code> tag.</li>
+                <li>Each list item starts and ends with the <code>&lt;li&gt;</code> tag.</li>
+                <li>Items by default with be marked with numbers.
+                    Use the type attribute to define the type of list item marker, such as letters or roman numerals.
+                </li>
+                <li><b>Example:</b></li>
+                <div class="lists-ex">
+                    <p><code>&lt;ol type=”A”&gt;</p>
+			<p>&lt;li&gt;Item 1&lt;/li&gt;</p>
+			<p>&lt;li&gt;Item 2&lt;/li&gt;</p>
+			<p>&lt;li&gt;Item 3&lt;/li&gt;&lt;/ol&gt;</code></p>
+                </div>
+            </ul>
+        </section>
+        <hr>
+        <section class="main-section" id="Tables">
+            <header>Tables</header>
+            <p>A table, or structure for creating rows and columns on page, in HTML is defined by the
+                <code>&lt;table&gt;</code> tag.
+                The <code>&lt;tr&gt;</code> tag defines table rows, the <code>&lt;th></code> tag defines table headers,
+                and the <code>&lt;td&gt;</code> tag defines table data/cells. In order for them to stand out,
+                table headings are bold and centered by default. The colspan attribute can be added to make a cell span
+                more than one column.
+                The rowspan attribute will make a cell span more than one row. The <code>&lt;caption&gt;</code> tag adds
+                a caption to the table.
+            </p>
+            <h3>Example:</h3>
+            <div id="table-ex">
+                <p><code>&lt;table&gt;</p>
+			<p>&lt;caption&gt;Table caption&lt;/caption&gt;</p>
+			<p>&lt;tr&gt;</p>
+			<p>&lt;th&gt;First heading&lt;/th&gt;</p>
+			<p>&lt;th colspan=”2”&gt;Second heading&lt;/th&gt;</p>
+			<p>&lt;/tr&gt;</p>
+			<p>&lt;tr&gt;</p>
+			<p>&lt;td&gt;Cell 1&lt;/td&gt;</p>
+			<p>&lt;td&gt;Cell 2&lt;/td&gt;</p>
+			<p>&lt;td&gt;Cell 3&lt;/td&gt;</p>
+			<p>&lt;/tr&gt;</p>
+			<p>&lt;/table&gt;</code></p>
+            </div>
+            <p>CSS can be used to set table properties.</p>
+            <ul>
+                <li>Border and border-collapse properties set table borders.</li>
+                <li>The padding property sets table cell padding.</li>
+                <li>Use text-align to align the text in headings or cells.</li>
+                <li>Border-spacing can be used to set the spacing of the table border.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>
