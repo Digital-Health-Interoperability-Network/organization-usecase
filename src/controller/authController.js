@@ -116,7 +116,7 @@ exports.createOrganization = catchAsync(async (req, res, next) => {
 
   const newOrg = await Organization.create(req.body);
 
-  await new Email(proof.value).sendWelcome();
+  // await new Email(proof.value).sendWelcome();
   // res.status(201).json({
   //   status: 'success',
   //   data: {
