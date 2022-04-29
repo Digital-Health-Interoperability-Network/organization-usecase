@@ -9,12 +9,16 @@ dotenv.config({ path: './config.env' });
 const DB = `${process.env.DATABASE}`;
 console.log(DB);
 mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    `mongodb://admin:test1234@mongo:27019/cura
+  `,
+    {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => {
     console.log('DB connected Succesfully');
   });
