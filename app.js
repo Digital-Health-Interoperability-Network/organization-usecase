@@ -37,14 +37,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(cors());
 
 //body parser, reading data from body into req.body
-app.use(express.json()); // parses application/json
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json()); // parses application/json
 
 app.use(cookieParser());
 
 //testing middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  if (req.body) {
+    console.log(req.body);
+  }
   next();
 });
 //serving static files

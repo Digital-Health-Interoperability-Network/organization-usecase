@@ -97,6 +97,7 @@ exports.resendOTP = catchAsync(async (req, res, next) => {
 });
 
 exports.createOrganization = catchAsync(async (req, res, next) => {
+  // req.body = JSON.parse(req.body);
   //1) Ensure there is an email in the telecom
   const proof = req.body.telecom.find((e) => e.system === 'email');
   if (!proof) return next(new AppError('Organiztion must have an email'));
