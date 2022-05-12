@@ -41,20 +41,26 @@ exports.getAllOrganizations = catchAsync(async (req, res, next) => {
 });
 
 exports.updateOrganization = catchAsync(async (req, res, next) => {
-  const updatedOrganization = await Organization.findByIdAndUpdate(
-    req.organization._id,
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
-  res.status(200).json({
-    status: 'success',
-    data: {
-      updatedOrganization,
-    },
-  });
+  try {
+    const updatedOrganization = await Organization.findByIdAndUpdate(
+      req.organization._id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.status(200).json({
+      status: 'success',
+      data: {
+        updatedOrganization,
+      },
+    });
+  } catch (e) {
+    res.status(500).json({
+      error: e,
+    });
+  }
 });
 
 exports.deleteOrganization = catchAsync(async (req, res, next) => {

@@ -28,7 +28,7 @@ const _registryIdentifierSchema = new mongoose.Schema({
     type: [String],
   },
   hoursOfOperation: {
-    type: [Map],
+    type: Map,
     of: Object,
   },
   operationalStatus: {
