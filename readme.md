@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/logo1.png" alt="Sublime's custom image"/>
+  <img src="./public/logo2.png" alt="Sublime's custom image"/>
 </p>
 
   <h1 align="center">CURA-OPS</h1>
