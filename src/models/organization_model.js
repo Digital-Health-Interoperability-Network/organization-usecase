@@ -120,7 +120,7 @@ organizationSchema.methods.createConfirmationToken = function () {
 
   this.confirmationCode = crypto.createHash('sha256').update(otp).digest('hex');
 
-  this.confirmationCodeExpires = Date.now() + 2 * 60 * 1000;
+  this.confirmationCodeExpires = Date.now() + 2 * 60 * 5000;
   return otp;
 };
 
