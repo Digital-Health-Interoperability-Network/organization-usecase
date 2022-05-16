@@ -13,8 +13,8 @@ const _registryIdentifierSchema = new mongoose.Schema({
   facilityName: {
     type: String,
   },
-  startDate: Date,
-  EndDate: Date,
+  startDate: String,
+  EndDate: String,
   ownership: {
     type: String,
   },
