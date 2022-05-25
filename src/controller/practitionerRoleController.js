@@ -6,6 +6,17 @@ exports.createPractitionerRole = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   req.body.practitioner = id;
   req.body.organization = req.organization._id;
+
+  //check if practitioner role code already exist
+  const isCode = await PractitionerRole.findOne({
+    practitioner: id,
+    code: req.body.code,
+  });
+
+  if (isCode) {
+    next(new AppError(`Practitioner already is a ${req.body.code}`, 400));
+  }
+
   const newPractitionerRole = await PractitionerRole.create(req.body);
 
   res.status(201).json({

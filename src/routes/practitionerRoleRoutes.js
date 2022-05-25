@@ -12,7 +12,10 @@ const router = express.Router({ mergeParams: true });
 router.use(protect);
 router
   .route('/')
-  .post(createPractitionerRole)
+  .post((req, res, next) => {
+    console.log('entered');
+    next();
+  }, createPractitionerRole)
   .get(getPractitionerRole)
   .patch(updatePractitionerRole);
 // router.route('/:id').get(getPractitionerRole);

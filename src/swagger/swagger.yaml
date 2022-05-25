@@ -1092,7 +1092,7 @@ paths:
         401:
           description: unauthorized access
 
-  /practitioner/{id}/practitionerrole:
+  /practitoner/{id}/practitionerrole:
     post:
       tags:
         - Practitioner
@@ -1116,11 +1116,8 @@ paths:
                   type: boolean
                   example: true
                 code:
-                  type: array
-                  example:
-                    -  Doctor
-                    -  Nurse
-                    -  Lab Scientist
+                  type: string
+                  example: Nurse
                 specialty:
                   type: array
                   example:
@@ -1135,8 +1132,8 @@ paths:
                       availableStartTime: 09:00:00
                       availableEndTime: 16:30:00
       responses:
-        204: 
-          description: null
+        201: 
+          description: successfull
         500: 
           description: internal server error
         403:

@@ -36,5 +36,11 @@ const practitionerSchema = new mongoose.Schema(
   }
 );
 
+practitionerSchema.virtual('practitionerRole', {
+  ref: 'PractitionerRole',
+  localField: '_id',
+  foreignField: 'practitioner',
+});
+
 const Practitioner = mongoose.model('Practitioner', practitionerSchema);
 module.exports = Practitioner;

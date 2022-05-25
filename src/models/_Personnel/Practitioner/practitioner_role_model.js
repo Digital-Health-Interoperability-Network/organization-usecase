@@ -23,7 +23,7 @@ const practitionerRoleSchema = new mongoose.Schema({
     required: [true, 'Please enter the organization'],
   },
   code: {
-    type: [String],
+    type: String,
     enum: [
       'Doctor',
       'Pharmacist',
@@ -72,9 +72,9 @@ practitionerRoleSchema.statics.updatePersonnel = async function (
         organization: organizationId,
       },
     },
-    {
-      $unwind: '$code',
-    },
+    // {
+    //   $unwind: '$code',
+    // },
     {
       $group: {
         _id: '$code',
@@ -82,7 +82,7 @@ practitionerRoleSchema.statics.updatePersonnel = async function (
       },
     },
   ]);
-
+  console.log(stats);
   const data = {};
   // stats.forEach(() => {});
   stats.forEach((e) => {

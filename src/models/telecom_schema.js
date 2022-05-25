@@ -10,7 +10,6 @@ const telecomSchema = new mongoose.Schema({
   },
   value: {
     type: String,
-    unique: true,
   },
   rank: {
     type: Number,

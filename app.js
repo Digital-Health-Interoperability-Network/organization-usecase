@@ -45,8 +45,6 @@ app.use(cookieParser());
 //testing middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req);
-  console.log(process.env.NODE_ENV);
   if (req.body) {
     console.log(req.body);
   }

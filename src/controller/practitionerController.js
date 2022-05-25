@@ -50,7 +50,7 @@ exports.updatePractitioner = catchAsync(async (req, res, next) => {
 exports.getAllMyPractitioners = catchAsync(async (req, res, next) => {
   const practitoners = await Practitioner.find({
     _personnel: req.organization._personnel,
-  });
+  }).populate('practitionerrole');
 
   res.status(200).json({
     status: 'success',
