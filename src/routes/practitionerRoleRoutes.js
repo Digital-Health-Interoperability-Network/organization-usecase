@@ -4,16 +4,17 @@ const {
   // getAllPractitionerRole,
   getPractitionerRole,
   updatePractitionerRole,
+  listOfPractitionerRoles,
 } = require('../controller/practitionerRoleController');
 const { protect } = require('../controller/authController');
 
 const router = express.Router({ mergeParams: true });
 
 router.use(protect);
+router.get('/roles', listOfPractitionerRoles);
 router
   .route('/')
   .post((req, res, next) => {
-    console.log('entered');
     next();
   }, createPractitionerRole)
   .get(getPractitionerRole)

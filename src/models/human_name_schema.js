@@ -25,4 +25,9 @@ const humanNameSchema = new mongoose.Schema({
   },
 });
 
+humanNameSchema.pre('save', function (next) {
+  this.text = `${this.prefix[0]} ${this.family} ${this.given[0]}`;
+  next();
+});
+
 module.exports = humanNameSchema;

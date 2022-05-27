@@ -5,6 +5,7 @@ const {
   getAllMyPractitioners,
   updatePractitioner,
   deletePractitioner,
+  getAllMyPractitionersbyAggregate,
 } = require('../controller/practitionerController');
 const { protect } = require('../controller/authController');
 const practitioneroleRouter = require('./practitionerRoleRoutes');
@@ -16,6 +17,7 @@ router.use('/:id/identifier', identifierRouter);
 
 router.use(protect);
 router.route('/').post(create_Practitioner).get(getAllMyPractitioners);
+router.route('/aggregates').get(getAllMyPractitionersbyAggregate);
 router
   .route('/:id')
   .patch(updatePractitioner)

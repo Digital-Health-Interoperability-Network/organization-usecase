@@ -1,10 +1,23 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 const Practitioner = require('../models/_Personnel/Practitioner/practitioner_model');
+const PractitionerRole = require('../models/_Personnel/Practitioner/practitioner_role_model');
+const APIFeatures = require('../services/apiFeature');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
 exports.create_Practitioner = catchAsync(async (req, res, next) => {
   req.body._personnel = req.organization._personnel;
   const new_practitioner = await Practitioner.create(req.body);
+
+  const practitionerRole = req.body.practitionerRole.map((el) => ({
+    ...el,
+    practitioner: new_practitioner.id,
+    organization: req.organization.id,
+  }));
+  const newPractitionerRole = await PractitionerRole.insertMany(
+    practitionerRole
+  );
+  new_practitioner.practitionerRole = newPractitionerRole;
 
   res.status(201).json({
     status: 'success',
@@ -47,10 +60,11 @@ exports.updatePractitioner = catchAsync(async (req, res, next) => {
     },
   });
 });
+
 exports.getAllMyPractitioners = catchAsync(async (req, res, next) => {
   const practitoners = await Practitioner.find({
     _personnel: req.organization._personnel,
-  }).populate('practitionerrole');
+  }).populate('practitionerRole');
 
   res.status(200).json({
     status: 'success',
@@ -60,15 +74,38 @@ exports.getAllMyPractitioners = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.getAllMyPractitionersbyAggregate = catchAsync(
+  async (req, res, next) => {
+    const features = new APIFeatures(
+      PractitionerRole.find().populate('practitioner'),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const data = await features.query;
+    const newData = data.map((el) => el.practitioner);
+
+    res.status(200).json({
+      status: 'success',
+      length: newData.length,
+      practitioners: newData,
+    });
+  }
+);
+
 exports.deletePractitioner = catchAsync(async (req, res, next) => {
-  const practitioner = await Practitioner.findOne({
+  const practitioner = await Practitioner.findOneAndDelete({
     _personnel: req.organization._personnel,
-    id: req.params.id,
+    _id: req.params.id,
   });
 
   if (!practitioner) return next(new AppError('Practitioner not found'));
 
-  res.status(200).json({
+  res.status(204).json({
     status: 'success',
   });
 });

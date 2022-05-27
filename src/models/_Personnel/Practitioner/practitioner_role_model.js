@@ -37,7 +37,7 @@ const practitionerRoleSchema = new mongoose.Schema({
       'health Record And HIM Officer',
       'Community Health Worker',
       'Community Health Extension Worker',
-      'Junior Commmunity Health Extension Worker',
+      'Junior Community Health Extension Worker',
       'Environmental Health Officers',
       'Health Attendant Or Assistant',
     ],
@@ -46,7 +46,7 @@ const practitionerRoleSchema = new mongoose.Schema({
   availableTime: [
     {
       daysOfWeek: {
-        type: ['String'],
+        type: String,
         enum: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       },
       allDay: Boolean,
@@ -82,7 +82,6 @@ practitionerRoleSchema.statics.updatePersonnel = async function (
       },
     },
   ]);
-  console.log(stats);
   const data = {};
   // stats.forEach(() => {});
   stats.forEach((e) => {
@@ -123,7 +122,7 @@ practitionerRoleSchema.statics.updatePersonnel = async function (
       case 'Community Health Extension Worker':
         data.numberOfCommunityHealthExtensionWorker = e.numOfPractitioner;
         break;
-      case 'Junior Commmunity Health Extension Worker':
+      case 'Junior Community Health Extension Worker':
         data.numberOfJuniorComHealthExtensionWorker = e.numOfPractitioner;
         break;
       case 'Environmental Health Officers':

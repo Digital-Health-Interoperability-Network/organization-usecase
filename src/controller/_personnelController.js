@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 const _Personnel = require('../models/_Personnel/_personnel_model');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -27,10 +28,19 @@ exports.get_MyPersonnel = catchAsync(async (req, res, next) => {
 
   if (!_personnel) return next(new AppError('_personnel id not found'));
 
+  const keys = Object.keys(_personnel._doc);
+  const values = Object.values(_personnel._doc);
+
+  const newDoc = keys.map((el, i) => {
+    const data = {};
+    data[el] = values[i];
+    return data;
+  });
+
   res.status(200).json({
     status: 'success',
     data: {
-      _personnel,
+      _personnel: newDoc,
     },
   });
 });

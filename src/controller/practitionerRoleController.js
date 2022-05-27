@@ -79,3 +79,14 @@ exports.updatePractitionerRole = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.listOfPractitionerRoles = catchAsync(async (req, res, next) => {
+  const listOfPractitionerRoles = await PractitionerRole.schema.path('code')
+    .enumValues;
+  res.status(200).json({
+    status: 'Success',
+    data: {
+      listOfPractitionerRoles,
+    },
+  });
+});
