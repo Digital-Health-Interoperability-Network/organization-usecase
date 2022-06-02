@@ -57,7 +57,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/organization', organizationRouter);
 app.use('/api/v1/_service', _serviceRouter);
 app.use('/api/v1/_personnel', _personnelRouter);
-app.use('/api/v1//practitioner', practitionerRouter);
+app.use('/api/v1/practitioner', practitionerRouter);
 app.use('/api/v1/practitionerrole', practitionerRoleRouter);
 app.use('/api/v1/identifier', identifierRouter);
 app.use('/api/v1/telecom', telecomRouter);
