@@ -28,18 +28,29 @@ exports.get_MyPersonnel = catchAsync(async (req, res, next) => {
 
   if (!_personnel) return next(new AppError('_personnel id not found'));
 
+  const { _id, organization } = _personnel._doc;
+
+  //remove _id, organizationId, and _v from the _personnel doc
+  delete _personnel._doc.organization;
+  delete _personnel._doc.id;
+  delete _personnel._doc.__v;
+
   const keys = Object.keys(_personnel._doc);
   const values = Object.values(_personnel._doc);
 
   const newDoc = keys.map((el, i) => {
     const data = {};
-    data[el] = values[i];
+    // data[el] = values[i];
+    data.roles = keys[i];
+    data.aggregate = values[i];
     return data;
   });
 
   res.status(200).json({
     status: 'success',
     data: {
+      _id,
+      organization,
       _personnel: newDoc,
     },
   });
