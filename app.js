@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const swaggerUI = require('swagger-ui-express');
+const morgan = require('morgan');
 // const swaggerJsDoc = require('swagger-jsdoc');
 const jsyaml = require('js-yaml');
 const userRouter = require('./src/routes/userRoutes');
@@ -41,6 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // parses application/json
 
 app.use(cookieParser());
+app.use(morgan('dev'));
 
 //testing middleware
 app.use((req, res, next) => {
