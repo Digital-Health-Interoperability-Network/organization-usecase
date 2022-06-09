@@ -9,15 +9,16 @@ exports.create_Practitioner = catchAsync(async (req, res, next) => {
   req.body._personnel = req.organization._personnel;
   const new_practitioner = await Practitioner.create(req.body);
 
-  const practitionerRole = req.body.practitionerRole.map((el) => ({
-    ...el,
-    practitioner: new_practitioner.id,
-    organization: req.organization.id,
-  }));
-  const newPractitionerRole = await PractitionerRole.insertMany(
-    practitionerRole
-  );
-  new_practitioner.practitionerRole = newPractitionerRole;
+  let newPractitionerRole = [];
+  if (req.body.practitionerRole) {
+    const practitionerRole = req.body.practitionerRole.map((el) => ({
+      ...el,
+      practitioner: new_practitioner.id,
+      organization: req.organization.id,
+    }));
+    newPractitionerRole = await PractitionerRole.insertMany(practitionerRole);
+    new_practitioner.practitionerRole = newPractitionerRole;
+  }
 
   res.status(201).json({
     status: 'success',
