@@ -41,6 +41,7 @@ exports.get_MyPersonnel = catchAsync(async (req, res, next) => {
   const newDoc = keys.map((el, i) => {
     const data = {};
     // data[el] = values[i];
+    data.id = i;
     data.roles = keys[i];
     data.aggregate = values[i];
     return data;
