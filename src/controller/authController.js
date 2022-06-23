@@ -20,10 +20,11 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   //3 Save the otp to db
   await newUser.save({ validateBeforeSave: false });
+  console.log(otp);
 
   //3) Send the otp to the user.
   // const url = `${req.protocol}://${req.get('host')}/me`;
-  await new Email(req.body.email).otpVerification(otp);
+  // await new Email(req.body.email).otpVerification(otp);
   res.status(201).json({
     status: 'success',
     data: {
