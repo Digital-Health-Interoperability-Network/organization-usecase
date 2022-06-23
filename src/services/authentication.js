@@ -21,6 +21,13 @@ exports.createSendToken = (organization, statusCode, res) => {
   // Remove password from output
   organization.password = undefined;
 
+  console.log({
+    status: 'success',
+    token,
+    data: {
+      organization,
+    },
+  });
   res.status(statusCode).json({
     status: 'success',
     token,
