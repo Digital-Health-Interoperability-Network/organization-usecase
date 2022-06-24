@@ -6,6 +6,7 @@ const Identifier = require('./identifier_model');
 const Address = require('./address_model');
 const Telecom = require('./telecom_schema');
 const _RegistryIdentifier = require('./_registry_identifiers_schema');
+const _PersonnelModel = require('./_Personnel/_personnel_model');
 
 const organizationSchema = new mongoose.Schema(
   {
@@ -75,6 +76,15 @@ organizationSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
 
   next();
+});
+
+organizationSchema.pre('save', async function (next) {
+  if (!this._personnel) {
+    const _personnelNew = await _PersonnelModel.create({
+      organization: this.id.toString(),
+    });
+    this._personnel = _personnelNew.id;
+  }
 });
 
 //function to compare password
